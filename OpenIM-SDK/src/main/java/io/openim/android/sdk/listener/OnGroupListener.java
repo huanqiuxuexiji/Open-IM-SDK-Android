@@ -1,7 +1,5 @@
 package io.openim.android.sdk.listener;
 
-import java.util.List;
-
 import io.openim.android.sdk.models.GroupApplicationInfo;
 import io.openim.android.sdk.models.GroupInfo;
 import io.openim.android.sdk.models.GroupMembersInfo;
@@ -19,6 +17,8 @@ public interface OnGroupListener {
     void onGroupApplicationDeleted(GroupApplicationInfo info);
 
     void onGroupApplicationRejected(GroupApplicationInfo info);
+
+    void onGroupDismissed(GroupInfo info);
 
     void onGroupInfoChanged(GroupInfo info);
 

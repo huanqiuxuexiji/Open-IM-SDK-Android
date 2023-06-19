@@ -13,7 +13,6 @@ import io.openim.android.sdk.listener._GroupListener;
 import io.openim.android.sdk.models.GroupApplicationInfo;
 import io.openim.android.sdk.models.GroupInfo;
 import io.openim.android.sdk.models.GroupInviteResult;
-import io.openim.android.sdk.models.GroupMemberRole;
 import io.openim.android.sdk.models.GroupMembersInfo;
 import io.openim.android.sdk.utils.JsonUtil;
 import io.openim.android.sdk.utils.ParamsUtil;
@@ -34,48 +33,48 @@ public class GroupManager {
      * 邀请进群
      *
      * @param groupId 群组ID
-     * @param uidList 被邀请的用户id列表
+     * @param userIDList 被邀请的用户id列表
      * @param reason  邀请说明
      * @param base    callback List<{@link GroupInviteResult}>>
      */
-    public void inviteUserToGroup(OnBase<List<GroupInviteResult>> base, String groupId, List<String> uidList, String reason) {
-        Open_im_sdk.inviteUserToGroup(BaseImpl.arrayBase(base, GroupInviteResult.class), ParamsUtil.buildOperationID(), groupId, reason, JsonUtil.toString(uidList));
+    public void inviteUserToGroup(OnBase<List<GroupInviteResult>> base, String groupId, List<String> userIDList, String reason) {
+        Open_im_sdk.inviteUserToGroup(BaseImpl.arrayBase(base, GroupInviteResult.class), ParamsUtil.buildOperationID(), groupId, reason, JsonUtil.toString(userIDList));
     }
 
     /**
      * 踢出群
      *
-     * @param groupId 群组ID
-     * @param uidList 被踢出群的用户id列表
+     * @param groupID 群组ID
+     * @param userIDList 被踢出群的用户id列表
      * @param reason  说明
      * @param base    callback List<{@link GroupInviteResult}>>
      */
-    public void kickGroupMember(OnBase<List<GroupInviteResult>> base, String groupId, List<String> uidList, String reason) {
-        Open_im_sdk.kickGroupMember(BaseImpl.arrayBase(base, GroupInviteResult.class), ParamsUtil.buildOperationID(), groupId, reason, JsonUtil.toString(uidList));
+    public void kickGroupMember(OnBase<List<GroupInviteResult>> base, String groupID, List<String> userIDList, String reason) {
+        Open_im_sdk.kickGroupMember(BaseImpl.arrayBase(base, GroupInviteResult.class), ParamsUtil.buildOperationID(), groupID, reason, JsonUtil.toString(userIDList));
     }
 
 
     /**
      * 批量获取群成员信息
      *
-     * @param groupId 群组ID
-     * @param uidList 群成员ID集合
+     * @param groupID 群组ID
+     * @param userIDList 群成员ID集合
      * @param base    callback List<{@link GroupMembersInfo}>
      **/
-    public void getGroupMembersInfo(OnBase<List<GroupMembersInfo>> base, String groupId, List<String> uidList) {
-        Open_im_sdk.getGroupMembersInfo(BaseImpl.arrayBase(base, GroupMembersInfo.class), ParamsUtil.buildOperationID(), groupId, JsonUtil.toString(uidList));
+    public void getGroupMembersInfo(OnBase<List<GroupMembersInfo>> base, String groupID, List<String> userIDList) {
+        Open_im_sdk.getSpecifiedGroupMembersInfo(BaseImpl.arrayBase(base, GroupMembersInfo.class), ParamsUtil.buildOperationID(), groupID, JsonUtil.toString(userIDList));
     }
 
     /**
      * 获取群成员
      *
-     * @param groupId 群组ID
+     * @param groupID 群组ID
      * @param filter  过滤成员 1普通成员, 2群主，3管理员，0所有
      * @param offset  偏移量
      * @param count   每页数量
      */
-    public void getGroupMemberList(OnBase<List<GroupMembersInfo>> base, String groupId, int filter, int offset, int count) {
-        Open_im_sdk.getGroupMemberList(BaseImpl.arrayBase(base, GroupMembersInfo.class), ParamsUtil.buildOperationID(), groupId, filter, offset, count);
+    public void getGroupMemberList(OnBase<List<GroupMembersInfo>> base, String groupID, int filter, int offset, int count) {
+        Open_im_sdk.getGroupMemberList(BaseImpl.arrayBase(base, GroupMembersInfo.class), ParamsUtil.buildOperationID(), groupID, filter, offset, count);
     }
 
 
@@ -90,24 +89,14 @@ public class GroupManager {
 
     /**
      * 创建群
-     *
-     * @param groupName    群名称
-     * @param faceURL      群icon
-     * @param notification 群公告
-     * @param introduction 群简介
-     * @param groupType
-     * @param ex           其他信息
-     * @param list         List<{@link GroupMemberRole}> 创建群是选择的成员. setRole：0:普通成员 2:管理员；1：群主
      */
-    public void createGroup(OnBase<GroupInfo> base, String groupName, String faceURL, String notification, String introduction, int groupType, String ex, List<GroupMemberRole> list) {
+    public void createGroup(OnBase<GroupInfo> base, GroupInfo groupInfo, List<String> memberUserIDs, List<String> adminUserIDs, String ownerUserID) {
         Map<String, Object> map = new ArrayMap<>();
-        map.put("groupName", groupName);
-        map.put("notification", notification);
-        map.put("introduction", introduction);
-        map.put("faceURL", faceURL);
-        map.put("groupType", groupType);
-        map.put("ex", ex);
-        Open_im_sdk.createGroup(BaseImpl.objectBase(base, GroupInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(map), JsonUtil.toString(list));
+        map.put("groupInfo", groupInfo);
+        map.put("memberUserIDs", memberUserIDs);
+        map.put("adminUserIDs", adminUserIDs);
+        map.put("ownerUserID", ownerUserID);
+        Open_im_sdk.createGroup(BaseImpl.objectBase(base, GroupInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(map));
     }
 
     /**
@@ -121,58 +110,62 @@ public class GroupManager {
      * @param ex           其他信息
      * @param base         callback String
      */
-    public void setGroupInfo(OnBase<String> base, String groupID, String groupName, String faceURL, String notification, String introduction, String ex) {
+    public void setGroupInfo(OnBase<String> base, String groupID, String groupName, String faceURL, String notification, String introduction, String ex, int needVerification, int lookMemberInfo, int applyMemberFriend) {
         Map<String, Object> map = new ArrayMap<>();
+        map.put("groupID", groupID);
         map.put("groupName", groupName);
         map.put("notification", notification);
         map.put("introduction", introduction);
         map.put("faceURL", faceURL);
         map.put("ex", ex);
-        Open_im_sdk.setGroupInfo(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID, JsonUtil.toString(map));
+        map.put("needVerification", needVerification);
+        map.put("lookMemberInfo", lookMemberInfo);
+        map.put("applyMemberFriend", applyMemberFriend);
+        Open_im_sdk.setGroupInfo(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), JsonUtil.toString(map));
     }
 
 
     /**
      * 批量获取群资料
      *
-     * @param gidList 群ID集合
+     * @param groupIDList 群ID集合
      * @param base    callback List<{@link GroupInfo}>
      */
-    public void getGroupsInfo(OnBase<List<GroupInfo>> base, List<String> gidList) {
-        Open_im_sdk.getGroupsInfo(BaseImpl.arrayBase(base, GroupInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(gidList));
+    public void getGroupsInfo(OnBase<List<GroupInfo>> base, List<String> groupIDList) {
+        Open_im_sdk.getSpecifiedGroupsInfo(BaseImpl.arrayBase(base, GroupInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(groupIDList));
     }
 
     /**
      * 申请加入群组
      *
-     * @param gid        群组ID
+     * @param groupID        群组ID
      * @param reason     请求原因
      * @param joinSource 2：通过邀请  3：通过搜索  4：通过二维码
      * @param base       callback String
      */
-    public void joinGroup(OnBase<String> base, String gid, String reason, int joinSource) {
-        Open_im_sdk.joinGroup(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), gid, reason, joinSource);
+    public void joinGroup(OnBase<String> base, String groupID, String reason, int joinSource) {
+        Open_im_sdk.joinGroup(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID, reason, joinSource);
     }
 
     /**
      * 退群
      *
-     * @param gid  群组ID
+     * @param groupID  群组ID
      * @param base callback String
      */
-    public void quitGroup(OnBase<String> base, String gid) {
-        Open_im_sdk.quitGroup(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), gid);
+    public void quitGroup(OnBase<String> base, String groupID) {
+        Open_im_sdk.quitGroup(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID);
     }
 
     /**
      * 转让群主
      *
-     * @param gid  群组ID
-     * @param uid  新拥有者（群主）id
+     * @param groupID  群组ID
+     * @param userID  新拥有者（群主）id
      * @param base callback String
      */
-    public void transferGroupOwner(OnBase<String> base, String gid, String uid) {
-        Open_im_sdk.transferGroupOwner(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), gid, uid);
+    public void transferGroupOwner(OnBase<String> base, String groupID, String userID) {
+        Open_im_sdk.transferGroupOwner(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID, userID);
     }
 
     /**
@@ -180,8 +173,8 @@ public class GroupManager {
      *
      * @param base callback {@link GroupApplicationInfo}
      */
-    public void getRecvGroupApplicationList(OnBase<List<GroupApplicationInfo>> base) {
-        Open_im_sdk.getRecvGroupApplicationList(BaseImpl.arrayBase(base, GroupApplicationInfo.class), ParamsUtil.buildOperationID());
+    public void getGroupApplicationListAsRecipient(OnBase<List<GroupApplicationInfo>> base) {
+        Open_im_sdk.getGroupApplicationListAsRecipient(BaseImpl.arrayBase(base, GroupApplicationInfo.class), ParamsUtil.buildOperationID());
     }
 
     /**
@@ -189,76 +182,76 @@ public class GroupManager {
      *
      * @param base callback {@link GroupApplicationInfo}
      */
-    public void getSendGroupApplicationList(OnBase<List<GroupApplicationInfo>> base) {
-        Open_im_sdk.getSendGroupApplicationList(BaseImpl.arrayBase(base, GroupApplicationInfo.class), ParamsUtil.buildOperationID());
+    public void getGroupApplicationListAsApplicant(OnBase<List<GroupApplicationInfo>> base) {
+        Open_im_sdk.getGroupApplicationListAsApplicant(BaseImpl.arrayBase(base, GroupApplicationInfo.class), ParamsUtil.buildOperationID());
     }
 
     /**
      * 接受入群申请
      *
-     * @param gid       群ID
-     * @param uid       申请入群的用户ID
+     * @param groupID       群ID
+     * @param userID       申请入群的用户ID
      * @param handleMsg 说明
      * @param base      callback String
      */
-    public void acceptGroupApplication(OnBase<String> base, String gid, String uid, String handleMsg) {
-        Open_im_sdk.acceptGroupApplication(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), gid, uid, handleMsg);
+    public void acceptGroupApplication(OnBase<String> base, String groupID, String userID, String handleMsg) {
+        Open_im_sdk.acceptGroupApplication(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID, userID, handleMsg);
 
     }
 
     /**
      * 拒绝入群申请
      *
-     * @param gid       群ID
-     * @param uid       申请入群的用户ID
+     * @param groupID       群ID
+     * @param userID       申请入群的用户ID
      * @param handleMsg 说明
      * @param base      callback String
      */
-    public void refuseGroupApplication(OnBase<String> base, String gid, String uid, String handleMsg) {
-        Open_im_sdk.refuseGroupApplication(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), gid, uid, handleMsg);
+    public void refuseGroupApplication(OnBase<String> base, String groupID, String userID, String handleMsg) {
+        Open_im_sdk.refuseGroupApplication(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID, userID, handleMsg);
 
     }
 
     /**
      * 解散群
      *
-     * @param gid 群ID
+     * @param groupID 群ID
      */
-    public void dismissGroup(OnBase<String> base, String gid) {
-        Open_im_sdk.dismissGroup(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), gid);
+    public void dismissGroup(OnBase<String> base, String groupID) {
+        Open_im_sdk.dismissGroup(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID);
     }
 
     /**
      * 开启群禁言
      *
-     * @param gid  群ID
+     * @param groupID  群ID
      * @param mute true开启
      */
-    public void changeGroupMute(OnBase<String> base, String gid, boolean mute) {
-        Open_im_sdk.changeGroupMute(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), gid, mute);
+    public void changeGroupMute(OnBase<String> base, String groupID, boolean mute) {
+        Open_im_sdk.changeGroupMute(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID, mute);
 
     }
 
     /**
      * 禁言群成员
      *
-     * @param gid     群ID
-     * @param uid     群成员userID
+     * @param groupID     群ID
+     * @param userID     群成员userID
      * @param seconds 禁言时间s
      */
-    public void changeGroupMemberMute(OnBase<String> base, String gid, String uid, long seconds) {
-        Open_im_sdk.changeGroupMemberMute(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), gid, uid, seconds);
+    public void changeGroupMemberMute(OnBase<String> base, String groupID, String userID, long seconds) {
+        Open_im_sdk.changeGroupMemberMute(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID, userID, seconds);
     }
 
     /**
      * 修改所在群的昵称
      *
-     * @param gid           群ID
-     * @param uid           群成员userID
+     * @param groupID           群ID
+     * @param userID           群成员userID
      * @param groupNickname 群内显示名称
      */
-    public void setGroupMemberNickname(OnBase<String> base, String gid, String uid, String groupNickname) {
-        Open_im_sdk.setGroupMemberNickname(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), gid, uid, groupNickname);
+    public void setGroupMemberNickname(OnBase<String> base, String groupID, String userID, String groupNickname) {
+        Open_im_sdk.setGroupMemberNickname(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID, userID, groupNickname);
     }
 
     /**

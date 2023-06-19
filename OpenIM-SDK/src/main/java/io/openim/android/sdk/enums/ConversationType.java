@@ -12,4 +12,6 @@ public class ConversationType {
      * 当前会话是群聊
      */
     public static final int GROUP_CHAT = 2;
+    public static final int SUPER_GROUP_CHAT = 3;
+    public static final int NOTIFICATION = 4;
 }

@@ -27,11 +27,11 @@ public class UserInfoManager {
     /**
      * 根据uid 批量查询用户信息
      *
-     * @param uidList 用户id列表
+     * @param userIDList 用户id列表
      * @param base    callback List<{@link UserInfo}>
      */
-    public void getUsersInfo(OnBase<List<UserInfo>> base, List<String> uidList) {
-        Open_im_sdk.getUsersInfo(BaseImpl.arrayBase(base, UserInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(uidList));
+    public void getUsersInfo(OnBase<List<UserInfo>> base, List<String> userIDList) {
+        Open_im_sdk.getUsersInfo(BaseImpl.arrayBase(base, UserInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(userIDList));
     }
 
     /**

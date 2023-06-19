@@ -32,23 +32,23 @@ public class FriendshipManager {
     /**
      * 根据用户id，批量查询好友资料
      *
-     * @param uidList 好友id集合
+     * @param userIDList 好友id集合
      * @param base    callback List<{@link UserInfo}>
      */
-    public void getFriendsInfo(OnBase<List<UserInfo>> base, List<String> uidList) {
-        Open_im_sdk.getDesignatedFriendsInfo(BaseImpl.arrayBase(base, UserInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(uidList));
+    public void getFriendsInfo(OnBase<List<UserInfo>> base, List<String> userIDList) {
+        Open_im_sdk.getSpecifiedFriendsInfo(BaseImpl.arrayBase(base, UserInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(userIDList));
     }
 
     /**
      * 发送好友申请
      *
-     * @param uid        对方userID
+     * @param userID        对方userID
      * @param reqMessage 请求消息
      * @param base       callback String
      */
-    public void addFriend(OnBase<String> base, String uid, String reqMessage) {
+    public void addFriend(OnBase<String> base, String userID, String reqMessage) {
         Map<String, Object> params = new ArrayMap<>();
-        params.put("toUserID", uid);
+        params.put("toUserID", userID);
         params.put("reqMsg", reqMessage);
         Open_im_sdk.addFriend(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), JsonUtil.toString(params));
     }
@@ -58,8 +58,8 @@ public class FriendshipManager {
      *
      * @param base callback List<{@link UserInfo}>
      */
-    public void getRecvFriendApplicationList(OnBase<List<FriendApplicationInfo>> base) {
-        Open_im_sdk.getRecvFriendApplicationList(BaseImpl.arrayBase(base, FriendApplicationInfo.class), ParamsUtil.buildOperationID());
+    public void getFriendApplicationListAsRecipient(OnBase<List<FriendApplicationInfo>> base) {
+        Open_im_sdk.getFriendApplicationListAsRecipient(BaseImpl.arrayBase(base, FriendApplicationInfo.class), ParamsUtil.buildOperationID());
     }
 
     /**
@@ -67,8 +67,8 @@ public class FriendshipManager {
      *
      * @param base callback List<{@link UserInfo}>
      */
-    public void getSendFriendApplicationList(OnBase<List<FriendApplicationInfo>> base) {
-        Open_im_sdk.getSendFriendApplicationList(BaseImpl.arrayBase(base, FriendApplicationInfo.class), ParamsUtil.buildOperationID());
+    public void getFriendApplicationListAsApplicant(OnBase<List<FriendApplicationInfo>> base) {
+        Open_im_sdk.getFriendApplicationListAsApplicant(BaseImpl.arrayBase(base, FriendApplicationInfo.class), ParamsUtil.buildOperationID());
     }
 
     /**
@@ -86,13 +86,13 @@ public class FriendshipManager {
     /**
      * 修改好友资料
      *
-     * @param uid    用户id
+     * @param userID    用户id
      * @param remark 备注名
      * @param base   callback String
      */
-    public void setFriendRemark(OnBase<String> base, String uid, String remark) {
+    public void setFriendRemark(OnBase<String> base, String userID, String remark) {
         Map<String, Object> params = new ArrayMap<>();
-        params.put("toUserID", uid);
+        params.put("toUserID", userID);
         params.put("remark", remark);
         Open_im_sdk.setFriendRemark(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), JsonUtil.toString(params));
     }
@@ -100,11 +100,11 @@ public class FriendshipManager {
     /**
      * 加入黑名单
      *
-     * @param uid  用户ID
+     * @param userID  用户ID
      * @param base callback String
      */
-    public void addBlacklist(OnBase<String> base, String uid) {
-        Open_im_sdk.addBlack(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), uid);
+    public void addBlacklist(OnBase<String> base, String userID) {
+        Open_im_sdk.addBlack(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), userID);
     }
 
     /**
@@ -119,43 +119,43 @@ public class FriendshipManager {
     /**
      * 从黑名单删除
      *
-     * @param uid  用户ID
+     * @param userID  用户ID
      * @param base callback String
      */
-    public void removeBlacklist(OnBase<String> base, String uid) {
-        Open_im_sdk.removeBlack(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), uid);
+    public void removeBlacklist(OnBase<String> base, String userID) {
+        Open_im_sdk.removeBlack(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), userID);
     }
 
     /**
      * 根据用户id检查好友关系
      *
-     * @param uidList 用户ID列表
+     * @param userIDList 用户ID列表
      * @param base    callback List<{@link UserInfo}>
      */
-    public void checkFriend(OnBase<List<FriendshipInfo>> base, List<String> uidList) {
-        Open_im_sdk.checkFriend(BaseImpl.arrayBase(base, FriendshipInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(uidList));
+    public void checkFriend(OnBase<List<FriendshipInfo>> base, List<String> userIDList) {
+        Open_im_sdk.checkFriend(BaseImpl.arrayBase(base, FriendshipInfo.class), ParamsUtil.buildOperationID(), JsonUtil.toString(userIDList));
     }
 
     /**
      * 删除好友
      *
-     * @param uid  用户ID
+     * @param userID  用户ID
      * @param base callback String
      */
-    public void deleteFriend(OnBase<String> base, String uid) {
-        Open_im_sdk.deleteFriend(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), uid);
+    public void deleteFriend(OnBase<String> base, String userID) {
+        Open_im_sdk.deleteFriend(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), userID);
     }
 
     /**
      * 拒绝好友申请
      *
-     * @param uid       用户ID
+     * @param userID       用户ID
      * @param handleMsg 处理信息
      * @param base      callback String
      */
-    public void refuseFriendApplication(OnBase<String> base, String uid, String handleMsg) {
+    public void refuseFriendApplication(OnBase<String> base, String userID, String handleMsg) {
         Map<String, Object> params = new ArrayMap<>();
-        params.put("toUserID", uid);
+        params.put("toUserID", userID);
         params.put("handleMsg", handleMsg);
         Open_im_sdk.refuseFriendApplication(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), JsonUtil.toString(params));
     }
@@ -163,13 +163,13 @@ public class FriendshipManager {
     /**
      * 接受好友请求
      *
-     * @param uid       用户ID
+     * @param userID       用户ID
      * @param handleMsg 处理信息
      * @param base      callback String
      */
-    public void acceptFriendApplication(OnBase<String> base, String uid, String handleMsg) {
+    public void acceptFriendApplication(OnBase<String> base, String userID, String handleMsg) {
         Map<String, Object> params = new ArrayMap<>();
-        params.put("toUserID", uid);
+        params.put("toUserID", userID);
         params.put("handleMsg", handleMsg);
         Open_im_sdk.acceptFriendApplication(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), JsonUtil.toString(params));
     }

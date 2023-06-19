@@ -2,7 +2,7 @@ package io.openim.android.sdk.models;
 
 import java.util.List;
 
-public class AtElem {
+public class AtTextElem {
     /**
      * at 消息内容
      */

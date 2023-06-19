@@ -1,6 +1,5 @@
 package io.openim.android.sdk.listener;
 
-import io.openim.android.sdk.models.UserInfo;
 
 /**
  * 只有在调用sdk的login方法后才开始回调

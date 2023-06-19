@@ -1,15 +1,9 @@
 package io.openim.android.sdk.manager;
 
-import android.util.ArrayMap;
-
-import java.util.List;
-import java.util.Map;
-
 import io.openim.android.sdk.listener.BaseImpl;
 import io.openim.android.sdk.listener.OnBase;
 import io.openim.android.sdk.listener.OnSignalingListener;
 import io.openim.android.sdk.listener._SignalingListener;
-import io.openim.android.sdk.models.MeetingInfoList;
 import io.openim.android.sdk.models.RoomCallingInfo;
 import io.openim.android.sdk.models.SignalingCertificate;
 import io.openim.android.sdk.models.SignalingInfo;
@@ -110,9 +104,9 @@ public class SignalingManager {
      * List<String> addBeWatchedUserIDList,
      * List<String> reduceBeWatchedUserIDList,
      */
-    public void signalingUpdateMeetingInfo(OnBase<String> base, Map<String, Object> configure) {
-        Open_im_sdk.signalingUpdateMeetingInfo(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), JsonUtil.toString(configure));
-    }
+//    public void signalingUpdateMeetingInfo(OnBase<String> base, Map<String, Object> configure) {
+//        Open_im_sdk.signalingUpdateMeetingInfo(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), JsonUtil.toString(configure));
+//    }
 
     /**
      * 创建会议室
@@ -124,16 +118,16 @@ public class SignalingManager {
      * @param inviteeUserIDList 被邀请的人
      * @param ex                其他
      */
-    public void signalingCreateMeeting(OnBase<SignalingCertificate> base, String meetingName, String meetingHostUserID, long startTime, long duration, List<String> inviteeUserIDList, String ex) {
-        Map<String, Object> map = new ArrayMap<>();
-        map.put("meetingName", meetingName);
-        map.put("meetingHostUserID", meetingHostUserID);
-        map.put("startTime", startTime);
-        map.put("meetingDuration", duration);
-        map.put("inviteeUserIDList", inviteeUserIDList);
-        map.put("ex", ex);
-        Open_im_sdk.signalingCreateMeeting(BaseImpl.objectBase(base, SignalingCertificate.class), ParamsUtil.buildOperationID(), JsonUtil.toString(map));
-    }
+//    public void signalingCreateMeeting(OnBase<SignalingCertificate> base, String meetingName, String meetingHostUserID, long startTime, long duration, List<String> inviteeUserIDList, String ex) {
+//        Map<String, Object> map = new ArrayMap<>();
+//        map.put("meetingName", meetingName);
+//        map.put("meetingHostUserID", meetingHostUserID);
+//        map.put("startTime", startTime);
+//        map.put("meetingDuration", duration);
+//        map.put("inviteeUserIDList", inviteeUserIDList);
+//        map.put("ex", ex);
+//        Open_im_sdk.signalingCreateMeeting(BaseImpl.objectBase(base, SignalingCertificate.class), ParamsUtil.buildOperationID(), JsonUtil.toString(map));
+//    }
 
     /**
      * 创建会议室
@@ -142,13 +136,13 @@ public class SignalingManager {
      * @param meetingName         会议主题
      * @param participantNickname 参与者临时名
      */
-    public void signalingJoinMeeting(OnBase<SignalingCertificate> base, String meetingID, String meetingName, String participantNickname) {
-        Map<String, Object> map = new ArrayMap<>();
-        map.put("meetingID", meetingID);
-        map.put("meetingName", meetingName);
-        map.put("participantNickname", participantNickname);
-        Open_im_sdk.signalingJoinMeeting(BaseImpl.objectBase(base, SignalingCertificate.class), ParamsUtil.buildOperationID(), JsonUtil.toString(map));
-    }
+//    public void signalingJoinMeeting(OnBase<SignalingCertificate> base, String meetingID, String meetingName, String participantNickname) {
+//        Map<String, Object> map = new ArrayMap<>();
+//        map.put("meetingID", meetingID);
+//        map.put("meetingName", meetingName);
+//        map.put("participantNickname", participantNickname);
+//        Open_im_sdk.signalingJoinMeeting(BaseImpl.objectBase(base, SignalingCertificate.class), ParamsUtil.buildOperationID(), JsonUtil.toString(map));
+//    }
 
     /**
      * 主持人对指定的某一个入会人员设置禁言
@@ -159,27 +153,27 @@ public class SignalingManager {
      * @param mute       禁言 video或audio，根据streamType
      * @param muteAll    禁言 video和audio
      */
-    public void signalingOperateStream(OnBase<String> base, String roomID, String streamType, String userID, boolean mute, boolean muteAll) {
-        Open_im_sdk.signalingOperateStream(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), roomID, streamType, userID, mute, muteAll);
-    }
+//    public void signalingOperateStream(OnBase<String> base, String roomID, String streamType, String userID, boolean mute, boolean muteAll) {
+//        Open_im_sdk.signalingOperateStream(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), roomID, streamType, userID, mute, muteAll);
+//    }
 
     /**
      * 获取所有的未完成会议
      */
-    public void signalingGetMeetings(OnBase<MeetingInfoList> base) {
-        Open_im_sdk.signalingGetMeetings(BaseImpl.objectBase(base, MeetingInfoList.class), ParamsUtil.buildOperationID());
-    }
+//    public void signalingGetMeetings(OnBase<MeetingInfoList> base) {
+//        Open_im_sdk.signalingGetMeetings(BaseImpl.objectBase(base, MeetingInfoList.class), ParamsUtil.buildOperationID());
+//    }
 
     /**
      * 结束会议
      *
      * @param roomID 房间ID 或 meetingID
      */
-    public void signalingCloseRoom(OnBase<MeetingInfoList> base, String roomID) {
-        Open_im_sdk.signalingCloseRoom(BaseImpl.objectBase(base, MeetingInfoList.class), ParamsUtil.buildOperationID(), roomID);
-    }
+//    public void signalingCloseRoom(OnBase<MeetingInfoList> base, String roomID) {
+//        Open_im_sdk.signalingCloseRoom(BaseImpl.objectBase(base, MeetingInfoList.class), ParamsUtil.buildOperationID(), roomID);
+//    }
 
-    public void signalingSendCustomSignal(OnBase<String> base, String roomID, String customInfo) {
-        Open_im_sdk.signalingSendCustomSignal(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), customInfo, roomID);
-    }
+//    public void signalingSendCustomSignal(OnBase<String> base, String roomID, String customInfo) {
+//        Open_im_sdk.signalingSendCustomSignal(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), customInfo, roomID);
+//    }
 }

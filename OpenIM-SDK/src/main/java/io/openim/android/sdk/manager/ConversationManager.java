@@ -53,12 +53,12 @@ public class ConversationManager {
     /**
      * 获取单个会话
      *
-     * @param sourceId:    聊值：UserId；聊值：GroupId
+     * @param sourceID:    聊值：UserId；聊值：GroupId
      * @param sessionType: 单聊：1；群聊：2
      * @param base         callback {@link ConversationInfo}
      */
-    public void getOneConversation(OnBase<ConversationInfo> base, String sourceId, long sessionType) {
-        Open_im_sdk.getOneConversation(BaseImpl.objectBase(base, ConversationInfo.class), ParamsUtil.buildOperationID(), sessionType, sourceId);
+    public void getOneConversation(OnBase<ConversationInfo> base, String sourceID, int sessionType) {
+        Open_im_sdk.getOneConversation(BaseImpl.objectBase(base, ConversationInfo.class), ParamsUtil.buildOperationID(), sessionType, sourceID);
     }
 
     /**
@@ -78,9 +78,9 @@ public class ConversationManager {
      * @param base           callback String
      */
 
-    public void deleteConversation(OnBase<String> base, String conversationID) {
-        Open_im_sdk.deleteConversation(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversationID);
-    }
+//    public void deleteConversation(OnBase<String> base, String conversationID) {
+//        Open_im_sdk.deleteConversation(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversationID);
+//    }
 
     /**
      * 设置草稿
@@ -104,14 +104,20 @@ public class ConversationManager {
         Open_im_sdk.pinConversation(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversationID, isPinned);
     }
 
+
+    public void hideConversation(OnBase<String> base, String conversationID) {
+        Open_im_sdk.hideConversation(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversationID);
+    }
+
+
     /**
-     * 标记群组会话已读
+     * 标记会话已读
      *
-     * @param groupID 群组ID
-     * @param base    callback String
+     * @param conversationID 会话ID
+     * @param base           callback String
      */
-    public void markGroupMessageHasRead(OnBase<String> base, String groupID) {
-        Open_im_sdk.markGroupMessageHasRead(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), groupID);
+    public void markConversationMessageAsRead(OnBase<String> base, String conversationID) {
+        Open_im_sdk.markConversationMessageAsRead(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversationID);
     }
 
     /**
@@ -128,11 +134,11 @@ public class ConversationManager {
      * 获取会话id；
      * 在从群列表进入聊天窗口后退群，这时候需要根据此方法获取会话id删除会话。
      *
-     * @param sourceId:    聊值：UserId；聊值：GroupId
+     * @param sourceID:    聊值：UserID；聊值：GroupID
      * @param sessionType: 单聊：1；群聊：2
      */
-    public String getConversationIDBySessionType(String sourceId, long sessionType) {
-        return Open_im_sdk.getConversationIDBySessionType(sourceId, sessionType);
+    public String getConversationIDBySessionType(String sourceID, long sessionType) {
+        return Open_im_sdk.getConversationIDBySessionType(ParamsUtil.buildOperationID(), sourceID, sessionType);
     }
 
     /**
@@ -158,16 +164,20 @@ public class ConversationManager {
      * @param conversionID 会话ID
      * @param isPrivate true开启
      * */
-    public void setOneConversationPrivateChat(OnBase<String> base, String conversionID, boolean isPrivate) {
-        Open_im_sdk.setOneConversationPrivateChat(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversionID, isPrivate);
+    public void setConversationPrivateChat(OnBase<String> base, String conversionID, boolean isPrivate) {
+        Open_im_sdk.setConversationPrivateChat(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversionID, isPrivate);
     }
 
     /***
      * 从本地和服务器删除会话跟历史消息
      * @param conversionID 会话ID
      * */
-    public void deleteConversationFromLocalAndSvr(OnBase<String> base, String conversionID) {
-        Open_im_sdk.deleteConversationFromLocalAndSvr(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversionID);
+    public void clearConversationAndDeleteAllMsg(OnBase<String> base, String conversionID) {
+        Open_im_sdk.clearConversationAndDeleteAllMsg(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversionID);
+    }
+
+    public void deleteConversationAndDeleteAllMsg(OnBase<String> base, String conversionID) {
+        Open_im_sdk.deleteConversationAndDeleteAllMsg(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversionID);
     }
 
     /***
@@ -190,7 +200,7 @@ public class ConversationManager {
      * 查询at所有人标识
      */
     public String getAtAllTag() {
-        return Open_im_sdk.getAtAllTag();
+        return Open_im_sdk.getAtAllTag(ParamsUtil.buildOperationID());
     }
 
     /**
@@ -207,8 +217,8 @@ public class ConversationManager {
      *
      * @param burnDuration 阅读时长s
      */
-    public void setOneConversationBurnDuration(OnBase<String> base, String conversationID, int burnDuration) {
-        Open_im_sdk.setOneConversationBurnDuration(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversationID, burnDuration);
+    public void setConversationBurnDuration(OnBase<String> base, String conversationID, int burnDuration) {
+        Open_im_sdk.setConversationBurnDuration(BaseImpl.stringBase(base), ParamsUtil.buildOperationID(), conversationID, burnDuration);
     }
 
     /**

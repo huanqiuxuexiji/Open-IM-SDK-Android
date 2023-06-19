@@ -18,10 +18,18 @@ final public class _AdvanceMsgListener implements open_im_sdk_callback.OnAdvance
     }
 
     @Override
+    public void onMsgDeleted(String s) {
+        if (listener != null) {
+            Message msg = JsonUtil.toObj(s, Message.class);
+            CommonUtil.runMainThread(() -> listener.onMsgDeleted(msg));
+        }
+    }
+
+    @Override
     public void onNewRecvMessageRevoked(String s) {
         if (listener != null) {
             RevokedInfo info = JsonUtil.toObj(s, RevokedInfo.class);
-            CommonUtil.runMainThread(() -> listener.onRecvMessageRevokedV2(info));
+            CommonUtil.runMainThread(() -> listener.onNewRecvMessageRevoked(info));
         }
     }
 
@@ -37,7 +45,7 @@ final public class _AdvanceMsgListener implements open_im_sdk_callback.OnAdvance
     public void onRecvGroupReadReceipt(String s) {
         if (listener != null) {
             List<ReadReceiptInfo> list = JsonUtil.toArray(s, ReadReceiptInfo.class);
-            CommonUtil.runMainThread(() -> listener.onRecvGroupMessageReadReceipt(list));
+            CommonUtil.runMainThread(() -> listener.onRecvGroupReadReceipt(list));
         }
     }
 
@@ -65,16 +73,20 @@ final public class _AdvanceMsgListener implements open_im_sdk_callback.OnAdvance
         }
     }
 
+
     @Override
-    public void onRecvMessageRevoked(String s) {
+    public void onRecvNewMessage(String s) {
         if (listener != null) {
-            CommonUtil.runMainThread(() -> listener.onRecvMessageRevoked(s));
+            Message msg = JsonUtil.toObj(s, Message.class);
+            CommonUtil.runMainThread(() -> listener.onRecvNewMessage(msg));
         }
     }
 
     @Override
-    public void onRecvNewMessage(String s) {
-        Message msg = JsonUtil.toObj(s, Message.class);
-        CommonUtil.runMainThread(() -> listener.onRecvNewMessage(msg));
+    public void onRecvOfflineNewMessages(String s) {
+        if (listener != null) {
+            List<Message> list = JsonUtil.toArray(s, Message.class);
+            CommonUtil.runMainThread(() -> listener.onRecvOfflineNewMessages(list));
+        }
     }
 }
